@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Look up the country and region for a three-digit +1 telephone area code.">
+  <title>Area Code Lookup</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0 24px;
+      background: #f7f8fa;
+      color: #162134;
+      font: 1rem / 1.5 system-ui, sans-serif;
+    }
+    main {
+      max-width: 360px;
+      margin: 0 auto;
+      padding: clamp(48px, 14vh, 144px) 0 40px;
+    }
+    h1 {
+      margin: 0 0 20px;
+      font-size: clamp(1.75rem, 6vw, 2.25rem);
+      line-height: 1.15;
+      letter-spacing: -.035em;
+    }
+    label, .note, footer { color: #4f5c70; font-size: .875rem; }
+    input {
+      display: block;
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px 14px;
+      border: 1px solid #8390a3;
+      border-radius: 8px;
+      background: #fff;
+      color: inherit;
+      font: 600 1.5rem / 1.4 system-ui, sans-serif;
+      letter-spacing: .08em;
+    }
+    input::placeholder { color: #637186; }
+    input:focus-visible { outline: 2px solid #2454a4; outline-offset: 3px; }
+    input[aria-invalid="true"] { border-color: #a32938; }
+    #result:not(:empty) {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid #d7dde7;
+    }
+    .region { margin: 0; font-size: 1.25rem; font-weight: 650; }
+    .country, .note { margin: 2px 0 0; }
+    .country { color: #4f5c70; }
+    footer { margin-top: 24px; }
+    a { color: inherit; text-underline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Area Code Lookup</h1>
+    <label for="code">Three-digit area code (+1)</label>
+    <input id="code" type="text" inputmode="numeric" autocomplete="off"
+      spellcheck="false" placeholder="604">
+    <div id="result" role="status" aria-atomic="true"></div>
+    <noscript><p>Enable JavaScript to look up an area code.</p></noscript>
+    <footer><a href="https://www.nanpa.com/reports/npa-reports">NANPA area code data</a></footer>
+  </main>
+
+  <script id="area-codes" type="application/json">
+{
+    "201": ["United States", "New Jersey"],
+    "202": ["United States", "District of Columbia"],
+    "203": ["United States", "Connecticut"],
+    "204": ["Canada", "Manitoba"],
+    "205": ["United States", "Alabama"],
+    "206": ["United States", "Washington"],
+    "207": ["United States", "Maine"],
+    "208": ["United States", "Idaho"],
+    "209": ["United States", "California"],
+    "210": ["United States", "Texas"],
+    "212": ["United States", "New York"],
+    "213": ["United States", "California"],
+    "214": ["United States", "Texas"],
+    "215": ["United States", "Pennsylvania"],
+    "216": ["United States", "Ohio"],
+    "217": ["United States", "Illinois"],
+    "218": ["United States", "Minnesota"],
+    "219": ["United States", "Indiana"],
+    "220": ["United States", "Ohio"],
+    "223": ["United States", "Pennsylvania"],
+    "224": ["United States", "Illinois"],
+    "225": ["United States", "Louisiana"],
+    "226": ["Canada", "Ontario"],
+    "227": ["United States", "Maryland"],
+    "228": ["United States", "Mississippi"],
+    "229": ["United States", "Georgia"],
+    "231": ["United States", "Michigan"],
+    "234": ["United States", "Ohio"],
+    "235": ["United States", "Missouri"],
+    "236": ["Canada", "British Columbia"],
+    "239": ["United States", "Florida"],
+    "240": ["United States", "Maryland"],
+    "242": ["Bahamas", "Country or territory-wide"],
+    "246": ["Barbados", "Country or territory-wide"],
+    "248": ["United States", "Michigan"],
+    "249": ["Canada", "Ontario"],
+    "250": ["Canada", "British Columbia"],
+    "251": ["United States", "Alabama"],
+    "252": ["United States", "North Carolina"],
+    "253": ["United States", "Washington"],
+    "254": ["United States", "Texas"],
+    "256": ["United States", "Alabama"],
+    "257": ["Canada", "British Columbia"],
+    "260": ["United States", "Indiana"],
+    "262": ["United States", "Wisconsin"],
+    "263": ["Canada", "Quebec"],
+    "264": ["Anguilla", "Country or territory-wide"],
+    "267": ["United States", "Pennsylvania"],
+    "268": ["Antigua and Barbuda", "Country or territory-wide"],
+    "269": ["United States", "Michigan"],
+    "270": ["United States", "Kentucky"],
+    "272": ["United States", "Pennsylvania"],
+    "273": ["Canada", "Quebec", "planned"],
+    "274": ["United States", "Wisconsin"],
+    "276": ["United States", "Virginia"],
+    "279": ["United States", "California"],
+    "281": ["United States", "Texas"],
+    "283": ["United States", "Ohio"],
+    "284": ["British Virgin Islands", "Country or territory-wide"],
+    "289": ["Canada", "Ontario"],
+    "301": ["United States", "Maryland"],
+    "302": ["United States", "Delaware"],
+    "303": ["United States", "Colorado"],
+    "304": ["United States", "West Virginia"],
+    "305": ["United States", "Florida"],
+    "306": ["Canada", "Saskatchewan"],
+    "307": ["United States", "Wyoming"],
+    "308": ["United States", "Nebraska"],
+    "309": ["United States", "Illinois"],
+    "310": ["United States", "California"],
+    "312": ["United States", "Illinois"],
+    "313": ["United States", "Michigan"],
+    "314": ["United States", "Missouri"],
+    "315": ["United States", "New York"],
+    "316": ["United States", "Kansas"],
+    "317": ["United States", "Indiana"],
+    "318": ["United States", "Louisiana"],
+    "319": ["United States", "Iowa"],
+    "320": ["United States", "Minnesota"],
+    "321": ["United States", "Florida"],
+    "323": ["United States", "California"],
+    "324": ["United States", "Florida"],
+    "325": ["United States", "Texas"],
+    "326": ["United States", "Ohio"],
+    "327": ["United States", "Arkansas"],
+    "329": ["United States", "New York"],
+    "330": ["United States", "Ohio"],
+    "331": ["United States", "Illinois"],
+    "332": ["United States", "New York"],
+    "334": ["United States", "Alabama"],
+    "336": ["United States", "North Carolina"],
+    "337": ["United States", "Louisiana"],
+    "339": ["United States", "Massachusetts"],
+    "340": ["United States", "U.S. Virgin Islands"],
+    "341": ["United States", "California"],
+    "343": ["Canada", "Ontario"],
+    "345": ["Cayman Islands", "Country or territory-wide"],
+    "346": ["United States", "Texas"],
+    "347": ["United States", "New York"],
+    "350": ["United States", "California"],
+    "351": ["United States", "Massachusetts"],
+    "352": ["United States", "Florida"],
+    "353": ["United States", "Wisconsin"],
+    "354": ["Canada", "Quebec"],
+    "357": ["United States", "California"],
+    "360": ["United States", "Washington"],
+    "361": ["United States", "Texas"],
+    "363": ["United States", "New York"],
+    "364": ["United States", "Kentucky"],
+    "365": ["Canada", "Ontario"],
+    "367": ["Canada", "Quebec"],
+    "368": ["Canada", "Alberta"],
+    "369": ["United States", "California"],
+    "380": ["United States", "Ohio"],
+    "382": ["Canada", "Ontario"],
+    "385": ["United States", "Utah"],
+    "386": ["United States", "Florida"],
+    "401": ["United States", "Rhode Island"],
+    "402": ["United States", "Nebraska"],
+    "403": ["Canada", "Alberta"],
+    "404": ["United States", "Georgia"],
+    "405": ["United States", "Oklahoma"],
+    "406": ["United States", "Montana"],
+    "407": ["United States", "Florida"],
+    "408": ["United States", "California"],
+    "409": ["United States", "Texas"],
+    "410": ["United States", "Maryland"],
+    "412": ["United States", "Pennsylvania"],
+    "413": ["United States", "Massachusetts"],
+    "414": ["United States", "Wisconsin"],
+    "415": ["United States", "California"],
+    "416": ["Canada", "Ontario"],
+    "417": ["United States", "Missouri"],
+    "418": ["Canada", "Quebec"],
+    "419": ["United States", "Ohio"],
+    "423": ["United States", "Tennessee"],
+    "424": ["United States", "California"],
+    "425": ["United States", "Washington"],
+    "428": ["Canada", "New Brunswick"],
+    "430": ["United States", "Texas"],
+    "431": ["Canada", "Manitoba"],
+    "432": ["United States", "Texas"],
+    "434": ["United States", "Virginia"],
+    "435": ["United States", "Utah"],
+    "436": ["United States", "Ohio"],
+    "437": ["Canada", "Ontario"],
+    "438": ["Canada", "Quebec"],
+    "440": ["United States", "Ohio"],
+    "441": ["Bermuda", "Country or territory-wide"],
+    "442": ["United States", "California"],
+    "443": ["United States", "Maryland"],
+    "445": ["United States", "Pennsylvania"],
+    "447": ["United States", "Illinois"],
+    "448": ["United States", "Florida"],
+    "450": ["Canada", "Quebec"],
+    "451": ["United States", "North Carolina", "planned"],
+    "457": ["United States", "Louisiana"],
+    "458": ["United States", "Oregon"],
+    "463": ["United States", "Indiana"],
+    "464": ["United States", "Illinois"],
+    "465": ["United States", "New York"],
+    "468": ["Canada", "Quebec"],
+    "469": ["United States", "Texas"],
+    "470": ["United States", "Georgia"],
+    "471": ["United States", "Mississippi"],
+    "472": ["United States", "North Carolina"],
+    "473": ["Grenada", "Country or territory-wide"],
+    "474": ["Canada", "Saskatchewan"],
+    "475": ["United States", "Connecticut"],
+    "478": ["United States", "Georgia"],
+    "479": ["United States", "Arkansas"],
+    "480": ["United States", "Arizona"],
+    "483": ["United States", "Alabama"],
+    "484": ["United States", "Pennsylvania"],
+    "500": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "501": ["United States", "Arkansas"],
+    "502": ["United States", "Kentucky"],
+    "503": ["United States", "Oregon"],
+    "504": ["United States", "Louisiana"],
+    "505": ["United States", "New Mexico"],
+    "506": ["Canada", "New Brunswick"],
+    "507": ["United States", "Minnesota"],
+    "508": ["United States", "Massachusetts"],
+    "509": ["United States", "Washington"],
+    "510": ["United States", "California"],
+    "512": ["United States", "Texas"],
+    "513": ["United States", "Ohio"],
+    "514": ["Canada", "Quebec"],
+    "515": ["United States", "Iowa"],
+    "516": ["United States", "New York"],
+    "517": ["United States", "Michigan"],
+    "518": ["United States", "New York"],
+    "519": ["Canada", "Ontario"],
+    "520": ["United States", "Arizona"],
+    "521": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "522": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "523": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "524": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "525": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "526": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "527": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "528": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "529": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "530": ["United States", "California"],
+    "531": ["United States", "Nebraska"],
+    "532": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "533": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "534": ["United States", "Wisconsin"],
+    "538": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "539": ["United States", "Oklahoma"],
+    "540": ["United States", "Virginia"],
+    "541": ["United States", "Oregon"],
+    "542": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "543": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "544": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "548": ["Canada", "Ontario"],
+    "551": ["United States", "New Jersey"],
+    "557": ["United States", "Missouri"],
+    "559": ["United States", "California"],
+    "561": ["United States", "Florida"],
+    "562": ["United States", "California"],
+    "563": ["United States", "Iowa"],
+    "564": ["United States", "Washington"],
+    "565": ["United States", "Georgia", "planned"],
+    "566": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "567": ["United States", "Ohio"],
+    "568": ["Canada", "Alberta", "planned"],
+    "570": ["United States", "Pennsylvania"],
+    "571": ["United States", "Virginia"],
+    "572": ["United States", "Oklahoma"],
+    "573": ["United States", "Missouri"],
+    "574": ["United States", "Indiana"],
+    "575": ["United States", "New Mexico"],
+    "577": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "579": ["Canada", "Quebec"],
+    "580": ["United States", "Oklahoma"],
+    "581": ["Canada", "Quebec"],
+    "582": ["United States", "Pennsylvania"],
+    "584": ["Canada", "Manitoba"],
+    "585": ["United States", "New York"],
+    "586": ["United States", "Michigan"],
+    "587": ["Canada", "Alberta"],
+    "588": ["United States", "No geographic assignment", "service", "Non-Geographic Services"],
+    "600": ["Canada", "No geographic assignment", "service", "Canadian Non-Geographic Tariffed Services"],
+    "601": ["United States", "Mississippi"],
+    "602": ["United States", "Arizona"],
+    "603": ["United States", "New Hampshire"],
+    "604": ["Canada", "British Columbia"],
+    "605": ["United States", "South Dakota"],
+    "606": ["United States", "Kentucky"],
+    "607": ["United States", "New York"],
+    "608": ["United States", "Wisconsin"],
+    "609": ["United States", "New Jersey"],
+    "610": ["United States", "Pennsylvania"],
+    "612": ["United States", "Minnesota"],
+    "613": ["Canada", "Ontario"],
+    "614": ["United States", "Ohio"],
+    "615": ["United States", "Tennessee"],
+    "616": ["United States", "Michigan"],
+    "617": ["United States", "Massachusetts"],
+    "618": ["United States", "Illinois"],
+    "619": ["United States", "California"],
+    "620": ["United States", "Kansas"],
+    "621": ["United States", "Texas"],
+    "622": ["Canada", "No geographic assignment", "service", "Canadian Non-Geographic Services"],
+    "623": ["United States", "Arizona"],
+    "624": ["United States", "New York"],
+    "626": ["United States", "California"],
+    "628": ["United States", "California"],
+    "629": ["United States", "Tennessee"],
+    "630": ["United States", "Illinois"],
+    "631": ["United States", "New York"],
+    "633": ["Canada", "No geographic assignment", "service", "Canadian non-geographic services"],
+    "636": ["United States", "Missouri"],
+    "639": ["Canada", "Saskatchewan"],
+    "640": ["United States", "New Jersey"],
+    "641": ["United States", "Iowa"],
+    "645": ["United States", "Florida"],
+    "646": ["United States", "New York"],
+    "647": ["Canada", "Ontario"],
+    "649": ["Turks and Caicos Islands", "Country or territory-wide"],
+    "650": ["United States", "California"],
+    "651": ["United States", "Minnesota"],
+    "656": ["United States", "Florida"],
+    "657": ["United States", "California"],
+    "658": ["Jamaica", "Country or territory-wide"],
+    "659": ["United States", "Alabama"],
+    "660": ["United States", "Missouri"],
+    "661": ["United States", "California"],
+    "662": ["United States", "Mississippi"],
+    "664": ["Montserrat", "Country or territory-wide"],
+    "667": ["United States", "Maryland"],
+    "669": ["United States", "California"],
+    "670": ["United States", "Northern Mariana Islands"],
+    "671": ["United States", "Guam"],
+    "672": ["Canada", "British Columbia"],
+    "678": ["United States", "Georgia"],
+    "679": ["United States", "Michigan"],
+    "680": ["United States", "New York"],
+    "681": ["United States", "West Virginia"],
+    "682": ["United States", "Texas"],
+    "683": ["Canada", "Ontario"],
+    "684": ["United States", "American Samoa"],
+    "686": ["United States", "Virginia"],
+    "689": ["United States", "Florida"],
+    "700": ["Shared across the +1 numbering plan", "No geographic assignment", "service", "Interexchange Carrier Services"],
+    "701": ["United States", "North Dakota"],
+    "702": ["United States", "Nevada"],
+    "703": ["United States", "Virginia"],
+    "704": ["United States", "North Carolina"],
+    "705": ["Canada", "Ontario"],
+    "706": ["United States", "Georgia"],
+    "707": ["United States", "California"],
+    "708": ["United States", "Illinois"],
+    "709": ["Canada", "Newfoundland and Labrador"],
+    "710": ["United States", "No geographic assignment", "service", "US Government"],
+    "712": ["United States", "Iowa"],
+    "713": ["United States", "Texas"],
+    "714": ["United States", "California"],
+    "715": ["United States", "Wisconsin"],
+    "716": ["United States", "New York"],
+    "717": ["United States", "Pennsylvania"],
+    "718": ["United States", "New York"],
+    "719": ["United States", "Colorado"],
+    "720": ["United States", "Colorado"],
+    "721": ["Sint Maarten", "Country or territory-wide"],
+    "724": ["United States", "Pennsylvania"],
+    "725": ["United States", "Nevada"],
+    "726": ["United States", "Texas"],
+    "727": ["United States", "Florida"],
+    "728": ["United States", "Florida"],
+    "729": ["United States", "Tennessee"],
+    "730": ["United States", "Illinois"],
+    "731": ["United States", "Tennessee"],
+    "732": ["United States", "New Jersey"],
+    "734": ["United States", "Michigan"],
+    "737": ["United States", "Texas"],
+    "738": ["United States", "California"],
+    "740": ["United States", "Ohio"],
+    "742": ["Canada", "Ontario"],
+    "743": ["United States", "North Carolina"],
+    "747": ["United States", "California"],
+    "748": ["United States", "Colorado"],
+    "753": ["Canada", "Ontario"],
+    "754": ["United States", "Florida"],
+    "757": ["United States", "Virginia"],
+    "758": ["Saint Lucia", "Country or territory-wide"],
+    "760": ["United States", "California"],
+    "761": ["United States", "Kentucky", "planned"],
+    "762": ["United States", "Georgia"],
+    "763": ["United States", "Minnesota"],
+    "765": ["United States", "Indiana"],
+    "767": ["Dominica", "Country or territory-wide"],
+    "769": ["United States", "Mississippi"],
+    "770": ["United States", "Georgia"],
+    "771": ["United States", "District of Columbia"],
+    "772": ["United States", "Florida"],
+    "773": ["United States", "Illinois"],
+    "774": ["United States", "Massachusetts"],
+    "775": ["United States", "Nevada"],
+    "778": ["Canada", "British Columbia"],
+    "779": ["United States", "Illinois"],
+    "780": ["Canada", "Alberta"],
+    "781": ["United States", "Massachusetts"],
+    "782": ["Canada", "Nova Scotia and Prince Edward Island"],
+    "784": ["Saint Vincent and the Grenadines", "Country or territory-wide"],
+    "785": ["United States", "Kansas"],
+    "786": ["United States", "Florida"],
+    "787": ["United States", "Puerto Rico"],
+    "800": ["Shared across the +1 numbering plan", "No geographic assignment", "service", "Toll-Free"],
+    "801": ["United States", "Utah"],
+    "802": ["United States", "Vermont"],
+    "803": ["United States", "South Carolina"],
+    "804": ["United States", "Virginia"],
+    "805": ["United States", "California"],
+    "806": ["United States", "Texas"],
+    "807": ["Canada", "Ontario"],
+    "808": ["United States", "Hawaii"],
+    "809": ["Dominican Republic", "Country or territory-wide"],
+    "810": ["United States", "Michigan"],
+    "812": ["United States", "Indiana"],
+    "813": ["United States", "Florida"],
+    "814": ["United States", "Pennsylvania"],
+    "815": ["United States", "Illinois"],
+    "816": ["United States", "Missouri"],
+    "817": ["United States", "Texas"],
+    "818": ["United States", "California"],
+    "819": ["Canada", "Quebec"],
+    "820": ["United States", "California"],
+    "821": ["United States", "South Carolina"],
+    "822": ["Shared across the +1 numbering plan", "No geographic assignment", "planned-service", "Toll-Free"],
+    "825": ["Canada", "Alberta"],
+    "826": ["United States", "Virginia"],
+    "828": ["United States", "North Carolina"],
+    "829": ["Dominican Republic", "Country or territory-wide"],
+    "830": ["United States", "Texas"],
+    "831": ["United States", "California"],
+    "832": ["United States", "Texas"],
+    "833": ["Shared across the +1 numbering plan", "No geographic assignment", "service", "Toll-Free"],
+    "835": ["United States", "Pennsylvania"],
+    "837": ["United States", "California"],
+    "838": ["United States", "New York"],
+    "839": ["United States", "South Carolina"],
+    "840": ["United States", "California"],
+    "843": ["United States", "South Carolina"],
+    "844": ["Shared across the +1 numbering plan", "No geographic assignment", "service", "Toll-Free"],
+    "845": ["United States", "New York"],
+    "847": ["United States", "Illinois"],
+    "848": ["United States", "New Jersey"],
+    "849": ["Dominican Republic", "Country or territory-wide"],
+    "850": ["United States", "Florida"],
+    "851": ["Canada", "Nova Scotia and Prince Edward Island", "planned"],
+    "854": ["United States", "South Carolina"],
+    "855": ["Shared across the +1 numbering plan", "No geographic assignment", "service", "Toll-Free"],
+    "856": ["United States", "New Jersey"],
+    "857": ["United States", "Massachusetts"],
+    "858": ["United States", "California"],
+    "859": ["United States", "Kentucky"],
+    "860": ["United States", "Connecticut"],
+    "861": ["United States", "Illinois"],
+    "862": ["United States", "New Jersey"],
+    "863": ["United States", "Florida"],
+    "864": ["United States", "South Carolina"],
+    "865": ["United States", "Tennessee"],
+    "866": ["Shared across the +1 numbering plan", "No geographic assignment", "service", "Toll-Free"],
+    "867": ["Canada", "Northwest Territories, Yukon, and Nunavut"],
+    "868": ["Trinidad and Tobago", "Country or territory-wide"],
+    "869": ["Saint Kitts and Nevis", "Country or territory-wide"],
+    "870": ["United States", "Arkansas"],
+    "872": ["United States", "Illinois"],
+    "873": ["Canada", "Quebec"],
+    "876": ["Jamaica", "Country or territory-wide"],
+    "877": ["Shared across the +1 numbering plan", "No geographic assignment", "service", "Toll-Free"],
+    "878": ["United States", "Pennsylvania"],
+    "879": ["Canada", "Newfoundland and Labrador"],
+    "888": ["Shared across the +1 numbering plan", "No geographic assignment", "service", "Toll-Free"],
+    "900": ["Shared across the +1 numbering plan", "No geographic assignment", "service", "Premium Services"],
+    "901": ["United States", "Tennessee"],
+    "902": ["Canada", "Nova Scotia and Prince Edward Island"],
+    "903": ["United States", "Texas"],
+    "904": ["United States", "Florida"],
+    "905": ["Canada", "Ontario"],
+    "906": ["United States", "Michigan"],
+    "907": ["United States", "Alaska"],
+    "908": ["United States", "New Jersey"],
+    "909": ["United States", "California"],
+    "910": ["United States", "North Carolina"],
+    "912": ["United States", "Georgia"],
+    "913": ["United States", "Kansas"],
+    "914": ["United States", "New York"],
+    "915": ["United States", "Texas"],
+    "916": ["United States", "California"],
+    "917": ["United States", "New York"],
+    "918": ["United States", "Oklahoma"],
+    "919": ["United States", "North Carolina"],
+    "920": ["United States", "Wisconsin"],
+    "924": ["United States", "Minnesota"],
+    "925": ["United States", "California"],
+    "928": ["United States", "Arizona"],
+    "929": ["United States", "New York"],
+    "930": ["United States", "Indiana"],
+    "931": ["United States", "Tennessee"],
+    "934": ["United States", "New York"],
+    "936": ["United States", "Texas"],
+    "937": ["United States", "Ohio"],
+    "938": ["United States", "Alabama"],
+    "939": ["United States", "Puerto Rico"],
+    "940": ["United States", "Texas"],
+    "941": ["United States", "Florida"],
+    "942": ["Canada", "Ontario"],
+    "943": ["United States", "Georgia"],
+    "945": ["United States", "Texas"],
+    "947": ["United States", "Michigan"],
+    "948": ["United States", "Virginia"],
+    "949": ["United States", "California"],
+    "951": ["United States", "California"],
+    "952": ["United States", "Minnesota"],
+    "954": ["United States", "Florida"],
+    "956": ["United States", "Texas"],
+    "959": ["United States", "Connecticut"],
+    "970": ["United States", "Colorado"],
+    "971": ["United States", "Oregon"],
+    "972": ["United States", "Texas"],
+    "973": ["United States", "New Jersey"],
+    "975": ["United States", "Missouri"],
+    "978": ["United States", "Massachusetts"],
+    "979": ["United States", "Texas"],
+    "980": ["United States", "North Carolina"],
+    "983": ["United States", "Colorado"],
+    "984": ["United States", "North Carolina"],
+    "985": ["United States", "Louisiana"],
+    "986": ["United States", "Idaho"],
+    "989": ["United States", "Michigan"]
+  }
+  </script>
+  <script>
+    const areaCodes = JSON.parse(document.querySelector('#area-codes').textContent);
+    const input = document.querySelector('#code');
+    const result = document.querySelector('#result');
+
+    function resultLine(className, value) {
+      const line = document.createElement('p');
+      line.className = className;
+      line.textContent = value;
+      return line;
+    }
+
+    function lookup() {
+      const code = input.value.trim();
+
+      if (!/^[0-9]{0,3}$/.test(code)) {
+        input.setAttribute('aria-invalid', 'true');
+        result.replaceChildren(resultLine('note', 'Enter exactly three digits.'));
+        return;
+      }
+
+      input.removeAttribute('aria-invalid');
+      if (code.length < 3) {
+        result.replaceChildren();
+        return;
+      }
+
+      const match = areaCodes[code];
+      if (!match) {
+        result.replaceChildren(resultLine('note', 'No +1 area code found for ' + code + '.'));
+        return;
+      }
+
+      const [country, region, status, service] = match;
+      const lines = region === 'Country or territory-wide'
+        ? [resultLine('region', country)]
+        : [resultLine('region', region), resultLine('country', country)];
+      if (service) {
+        lines.push(resultLine('note', service));
+      } else if (status === 'service') {
+        lines.push(resultLine('note', 'Non-geographic service'));
+      }
+      if (status === 'planned' || status === 'planned-service') {
+        lines.push(resultLine('note', 'Assigned for future use.'));
+      }
+      result.replaceChildren(...lines);
+    }
+
+    input.addEventListener('input', lookup);
+    window.addEventListener('pageshow', lookup);
+  </script>
+</body>
+</html>
